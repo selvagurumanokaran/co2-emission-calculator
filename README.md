@@ -4,19 +4,19 @@ a given transportation method. It exposes a shell command called co2-calculator 
 
 `co2-calculator --start Hamburg --end Berlin --transportation-method medium-diesel-car`
 
-It is written leveraging the spring boot framework. It also uses Spring Shell for command lines.
-For Spring Shell reference, https://docs.spring.io/spring-shell/docs/current/reference/pdf/index.pdf
-
-The project used openrouteservice for calculating the distance between cities. 
-To know more about openrouteservice, https://openrouteservice.org/
-
 ## Prerequisites
 
 - You have `Java 8` or above version installed.
+- You have maven `3.6.1` installed.
 - openrouteservice API key is set in the environment variable named `ORS_TOKEN`.
 
 ## Running
 
 1. Open the command line in your system.
-2. Just run ` ./mvnw spring-boot:run` in case of Mac or Linux or `mvnw.cmd spring-boot:run` in case of Windows operating system from the root directory of this project.
-3. You will see a command line like `shell:>`. Start entering your commands. 
+2. Build the project by running `mvn clean package`.
+2. Just run ` ./co2-calculator` in case of Mac or Linux or `co2-calculator.bat` in case of Windows operating system from the root directory of this project.
+
+## Running test cases
+
+1. Open the command line in your system.
+2. Just run `mvn test` to run the test cases.
