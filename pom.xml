@@ -39,6 +39,10 @@
                     <artifactId>org.springframework.boot</artifactId>
                     <groupId>spring-boot-starter-tomcat</groupId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
