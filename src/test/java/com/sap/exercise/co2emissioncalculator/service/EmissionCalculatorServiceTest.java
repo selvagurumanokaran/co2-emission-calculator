@@ -36,21 +36,21 @@ public class EmissionCalculatorServiceTest {
         List<Double> endCoordinates = Arrays.asList(-20.223, 61.31212);
         when(repository.getCoordinates(END)).thenReturn(endCoordinates);
         when(repository.getDistance(startCoordinates, endCoordinates)).thenReturn(Optional.of(124.0));
-        String output = subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD);
-        assertEquals(output, "Your trip caused 0.7kg of CO2-equivalent.");
+        double output = subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD);
+        assertEquals(output, 0.7);
     }
 
     @Test
     public void testInvalidTransportation() {
-        String output = subject.calculateCo2Emission(START, END, "auto");
-        assertEquals(output, "Invalid transportation method.");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> subject.calculateCo2Emission(START, END, "auto"));
+        assertEquals(exception.getMessage(), "Invalid transportation method.");
     }
 
     @Test
     public void testInvalidStartCity() {
         when(repository.getCoordinates(START)).thenReturn(Collections.emptyList());
-        String output = subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD);
-        assertEquals(output, "Invalid start city.");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD));
+        assertEquals(exception.getMessage(), "Invalid start city.");
     }
 
     @Test
@@ -58,8 +58,8 @@ public class EmissionCalculatorServiceTest {
         List<Double> startCoordinates = Arrays.asList(10.213313, 2.323232);
         when(repository.getCoordinates(START)).thenReturn(startCoordinates);
         when(repository.getCoordinates(END)).thenReturn(Collections.emptyList());
-        String output = subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD);
-        assertEquals(output, "Invalid end city.");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD));
+        assertEquals(exception.getMessage(), "Invalid end city.");
     }
 
     @Test
@@ -79,8 +79,8 @@ public class EmissionCalculatorServiceTest {
         List<Double> endCoordinates = Arrays.asList(-20.223, 61.31212);
         when(repository.getCoordinates(END)).thenReturn(endCoordinates);
         when(repository.getDistance(startCoordinates, endCoordinates)).thenReturn(Optional.empty());
-        String output = subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD);
-        assertEquals(output, "Something went wrong. Could not determine the distance and co2 emission between given cities.");
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD));
+        assertEquals(exception.getMessage(), "Something went wrong. Could not determine the distance and co2 emission between given cities.");
     }
 
     @Test
@@ -90,7 +90,7 @@ public class EmissionCalculatorServiceTest {
         List<Double> endCoordinates = Arrays.asList(-20.223, 61.31212);
         when(repository.getCoordinates(END)).thenReturn(endCoordinates);
         when(repository.getDistance(startCoordinates, endCoordinates)).thenReturn(Optional.of(0.0));
-        String output = subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD);
-        assertEquals("Cities are not connected.", output);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> subject.calculateCo2Emission(START, END, TRANSPORTATION_METHOD));
+        assertEquals("Cities are not connected.", exception.getMessage());
     }
 }

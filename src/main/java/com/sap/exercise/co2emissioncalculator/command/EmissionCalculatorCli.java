@@ -28,10 +28,13 @@ public class EmissionCalculatorCli {
             String start = String.join(" ", line.getOptionValues("start"));
             String end = String.join(" ", line.getOptionValues("end"));
             String transport = line.getOptionValues("transportation-method")[0];
-            System.out.println(emissionCalculatorService.calculateCo2Emission(start, end, transport));
+            double emissionValue = emissionCalculatorService.calculateCo2Emission(start, end, transport);
+            System.out.println("Your trip caused " + emissionValue + "kg of CO2-equivalent.");
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             new HelpFormatter().printHelp("./co2-calculator", options);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
